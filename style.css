@@ -1,0 +1,607 @@
+/* 全局重置和基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+}
+
+/* 背景图片容器 */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 主容器 */
+.main-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    color: white;
+}
+
+/* 标题区域 */
+.title-section {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #fff;
+    letter-spacing: 5px;
+}
+
+/* 游戏规则区域 */
+.rules-section {
+    background: rgba(0, 50, 100, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.rules-content {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #e0f0ff;
+}
+
+/* 状态信息区域 */
+.status-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(0, 30, 60, 0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px 0;
+    flex-wrap: wrap;
+}
+
+.status-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 15px;
+}
+
+.status-item.center {
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.5);
+}
+
+.status-label {
+    font-size: 0.8rem;
+    color: #a0c0e0;
+    margin-bottom: 3px;
+}
+
+.status-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* 主内容区域 */
+.content-area {
+    display: flex;
+    flex: 1;
+    margin-top: 5px;
+    gap: 10px;
+    overflow: hidden;
+}
+
+/* 左侧控制面板 */
+.control-panel {
+    width: 15%;
+    min-width: 150px;
+    background: rgba(0, 30, 60, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+.control-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-item.buttons {
+    flex-direction: row;
+    gap: 8px;
+}
+
+.control-label {
+    font-size: 0.85rem;
+    color: #a0c0e0;
+}
+
+.control-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #00ff88;
+    text-align: center;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+/* 滑块样式 */
+input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #00a8ff;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 168, 255, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #00a8ff;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 5px rgba(0, 168, 255, 0.5);
+}
+
+.slider-value {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #00a8ff;
+    font-weight: bold;
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    flex: 1;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00c853, #00a040);
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #ffab00, #ff8f00);
+    color: white;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ff5252, #d32f2f);
+    color: white;
+    width: 100%;
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #448aff, #2962ff);
+    color: white;
+    width: 100%;
+}
+
+/* 养鱼区域 */
+.fish-tank {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+/* 鱼的样式 */
+.fish {
+    position: absolute;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+    will-change: transform, left, top;
+}
+
+.fish img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 鱼食样式 */
+.food {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ffd700;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform, top;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+}
+
+@keyframes fall {
+    to {
+        top: 100%;
+    }
+}
+
+.food.falling {
+    animation: fall 3s linear forwards;
+}
+
+/* 鱼的呼吸动画 */
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+}
+
+.fish.breathing {
+    animation: breathe 2s ease-in-out infinite;
+}
+
+/* 合成动画 */
+@keyframes merge {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.fish.merging {
+    animation: merge 0.5s ease-out forwards;
+}
+
+/* 升级弹窗 */
+.upgrade-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #ffd700;
+    border-radius: 15px;
+    padding: 30px 50px;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.upgrade-popup.show {
+    display: block;
+    animation: popupShow 0.3s ease-out;
+}
+
+@keyframes popupShow {
+    from {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.popup-content {
+    text-align: center;
+}
+
+.popup-content p {
+    font-size: 1.5rem;
+    color: #ffd700;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* 模态框样式 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a237e, #0d1642);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h2 {
+    color: #fff;
+    font-size: 1.3rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 历史记录列表 */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.history-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.history-date {
+    color: #a0c0e0;
+    font-size: 0.9rem;
+}
+
+.history-level {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.history-fish {
+    color: #fff;
+}
+
+.history-empty {
+    text-align: center;
+    color: #a0c0e0;
+    padding: 30px;
+}
+
+/* 设置项 */
+.setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setting-item label {
+    color: #a0c0e0;
+    font-size: 0.9rem;
+}
+
+.setting-item select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.setting-item select option {
+    background: #1a237e;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .control-panel {
+        width: 20%;
+        min-width: 140px;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        padding: 5px;
+    }
+    
+    .main-title {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .rules-content {
+        font-size: 0.75rem;
+    }
+    
+    .status-section {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .status-item {
+        padding: 3px 8px;
+    }
+    
+    .status-label {
+        font-size: 0.7rem;
+    }
+    
+    .status-value {
+        font-size: 0.9rem;
+    }
+    
+    .content-area {
+        flex-direction: column;
+    }
+    
+    .control-panel {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .control-item {
+        flex: 1;
+        min-width: 100px;
+    }
+    
+    .control-item.buttons {
+        flex: 2;
+    }
+    
+    .fish-tank {
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 1.2rem;
+    }
+    
+    .btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+}
+
+/* 全屏样式 */
+.fullscreen .main-container {
+    padding: 20px;
+}
+
+/* 分贝过高警告 */
+.db-warning {
+    color: #ff5252 !important;
+    animation: warningPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes warningPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}

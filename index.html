@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安静养鱼系统</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 密码输入界面样式 */
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        #password-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        #password-form h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        #password-input {
+            width: 250px;
+            padding: 10px;
+            margin: 20px 0;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        #password-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        #password-form button:hover {
+            background-color: #45a049;
+        }
+        
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        
+        /* 锁定按钮样式 */
+        .btn-lock {
+            background-color: #ff9800;
+        }
+        
+        .btn-lock:hover {
+            background-color: #f57c00;
+        }
+        
+        .btn-lock.locked {
+            background-color: #f44336;
+        }
+        
+        .btn-lock.locked:hover {
+            background-color: #d32f2f;
+        }
+        
+        .lock-icon {
+            margin-right: 5px;
+        }
+        
+        /* 解锁密码弹窗样式 */
+        #unlock-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        #unlock-overlay.show {
+            display: flex;
+        }
+        
+        #unlock-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        #unlock-form h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        #unlock-input {
+            width: 250px;
+            padding: 10px;
+            margin: 20px 0;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        #unlock-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        
+        #unlock-form button:hover {
+            background-color: #45a049;
+        }
+        
+        #unlock-form button.cancel {
+            background-color: #f44336;
+        }
+        
+        #unlock-form button.cancel:hover {
+            background-color: #d32f2f;
+        }
+        
+        #unlock-error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        correctPassword = 'xiang666'
+        // 密码验证功能
+        function checkPassword() {         
+            // 创建密码输入界面
+            const overlay = document.createElement('div');
+            overlay.id = 'password-overlay';
+            
+            const form = document.createElement('div');
+            form.id = 'password-form';
+            
+            form.innerHTML = `
+                <h2>请输入密码</h2>
+                <input type="password" id="password-input" placeholder="请输入密码">
+                <br>
+                <button onclick="verifyPassword()">确认</button>
+                <div id="error-message"></div>
+            `;
+            
+            overlay.appendChild(form);
+            document.body.appendChild(overlay);
+        }
+        
+        function verifyPassword() {
+            const passwordInput = document.getElementById('password-input');
+            const errorMessage = document.getElementById('error-message');
+            const overlay = document.getElementById('password-overlay');
+            
+            const password = passwordInput.value;
+            
+            if (password === correctPassword) {
+                // 密码正确，移除覆盖层
+                overlay.remove();
+            } else {
+                // 密码错误，显示错误信息
+                errorMessage.textContent = '密码错误，请重新输入！';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+        
+        // 页面加载时执行密码验证
+        window.onload = checkPassword;
+        
+        // 解锁密码验证
+        function showUnlockModal() {
+            const overlay = document.getElementById('unlock-overlay');
+            const input = document.getElementById('unlock-input');
+            const errorMessage = document.getElementById('unlock-error-message');
+            
+            overlay.classList.add('show');
+            input.value = '';
+            errorMessage.textContent = '';
+            input.focus();
+        }
+        
+        function verifyUnlock() {
+            const input = document.getElementById('unlock-input');
+            const errorMessage = document.getElementById('unlock-error-message');
+            const overlay = document.getElementById('unlock-overlay');
+            
+            if (input.value === correctPassword) {
+                overlay.classList.remove('show');
+                // 密码正确，触发解锁事件
+                const event = new CustomEvent('unlockSuccess');
+                document.dispatchEvent(event);
+            } else {
+                errorMessage.textContent = '密码错误，请重新输入！';
+                input.value = '';
+                input.focus();
+            }
+        }
+        
+        function cancelUnlock() {
+            const overlay = document.getElementById('unlock-overlay');
+            overlay.classList.remove('show');
+        }
+    </script>
+</head>
+<body>
+    <div class="background-container">
+        <img src="images/背景.jpg" alt="海底世界" class="background-image">
+    </div>
+
+    <div class="main-container">
+        <!-- 标题行 -->
+        <header class="title-section">
+            <h1 class="main-title">安静养鱼系统</h1>
+        </header>
+
+        <!-- 游戏规则行 -->
+        <section class="rules-section">
+            <div class="rules-content">
+                <p>游戏规则：每安静1分钟，获得一条当前等级对应的小鱼；分贝每超过阈值一次，失去一条小鱼；每获得5条小鱼，自动合成为一条小鱼并变身。游戏开始为1级，每变身1次升1级，共30级。</p>
+            </div>
+        </section>
+
+        <!-- 状态信息行 -->
+        <section class="status-section">
+            <div class="status-item">
+                <span class="status-label">本次安静时间</span>
+                <span class="status-value" id="current-quiet-time">00:00</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">生成下一条小鱼剩余</span>
+                <span class="status-value" id="next-fish-time">60秒</span>
+            </div>
+            <div class="status-item center">
+                <span class="status-label">当前等级</span>
+                <span class="status-value" id="current-level">LV1 海胆</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">已有鱼的条数</span>
+                <span class="status-value" id="fish-count">0</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">累计安静时间</span>
+                <span class="status-value" id="total-quiet-time">00:00</span>
+            </div>
+        </section>
+
+        <!-- 主内容区 -->
+        <div class="content-area">
+            <!-- 左侧控制面板 -->
+            <aside class="control-panel">
+                <div class="control-item">
+                    <span class="control-label">当前分贝</span>
+                    <span class="control-value" id="current-db">0 dB</span>
+                </div>
+
+                <div class="control-item">
+                    <span class="control-label">阈值设置</span>
+                    <input type="range" id="threshold-slider" min="0" max="100" value="50">
+                    <span class="slider-value" id="threshold-value">50</span>
+                </div>
+
+                <div class="control-item buttons">
+                    <button id="start-btn" class="btn btn-primary">开始</button>
+                    <button id="pause-btn" class="btn btn-secondary" disabled>暂停</button>
+                </div>
+
+                <div class="control-item">
+                    <button id="reset-btn" class="btn btn-warning">重置</button>
+                </div>
+
+                <div class="control-item">
+                    <button id="history-btn" class="btn btn-info">历史记录</button>
+                </div>
+
+                <div class="control-item">
+                    <button id="settings-btn" class="btn btn-info">麦克风设置</button>
+                </div>
+
+                <div class="control-item">
+                    <button id="fullscreen-btn" class="btn btn-info">全屏</button>
+                </div>
+
+                <div class="control-item">
+                    <button id="lock-btn" class="btn btn-lock">
+                        <span id="lock-icon" class="lock-icon">🔓</span>
+                        <span id="lock-text">解锁</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- 右侧养鱼区域 -->
+            <main class="fish-tank" id="fish-tank">
+                <!-- 鱼会动态生成在这里 -->
+            </main>
+        </div>
+    </div>
+
+    <!-- 升级弹窗 -->
+    <div class="upgrade-popup" id="upgrade-popup">
+        <div class="popup-content">
+            <p id="upgrade-message">升级成功！</p>
+        </div>
+    </div>
+
+    <!-- 历史记录弹窗 -->
+    <div class="modal" id="history-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>历史记录（30天）</h2>
+                <button class="close-btn" id="close-history">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="history-list" id="history-list">
+                    <!-- 历史记录动态生成 -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="clear-history" class="btn btn-warning">清空历史</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置弹窗 -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>设置</h2>
+                <button class="close-btn" id="close-settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <label for="mic-select">选择麦克风：</label>
+                    <select id="mic-select">
+                        <option value="">默认麦克风</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 解锁密码弹窗 -->
+    <div id="unlock-overlay">
+        <div id="unlock-form">
+            <h2>请输入密码解锁</h2>
+            <input type="password" id="unlock-input" placeholder="请输入密码">
+            <br>
+            <button onclick="verifyUnlock()">确认</button>
+            <button class="cancel" onclick="cancelUnlock()">取消</button>
+            <div id="unlock-error-message"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
